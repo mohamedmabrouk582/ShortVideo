@@ -49,16 +49,22 @@ fun VideoPlayerComponent(
 
     // Initialize ExoPlayer and configure its volume based on originalVideoVolume setting
     val exoPlayer = remember(videoUrl) {
-        ExoPlayer.Builder(context).build().apply {
-            repeatMode = Player.REPEAT_MODE_ONE
-            playWhenReady = isCurrentlyActive
-            volume = originalVideoVolume
-            
-            // Setup Media Item
-            val mediaItem = MediaItem.fromUri(videoUrl)
-            setMediaItem(mediaItem)
-            prepare()
-        }
+        val cacheDataSourceFactory = com.example.data.VideoCacheManager.getCacheDataSourceFactory(context)
+        val mediaSourceFactory = androidx.media3.exoplayer.source.DefaultMediaSourceFactory(context)
+            .setDataSourceFactory(cacheDataSourceFactory)
+
+        ExoPlayer.Builder(context)
+            .setMediaSourceFactory(mediaSourceFactory)
+            .build().apply {
+                repeatMode = Player.REPEAT_MODE_ONE
+                playWhenReady = isCurrentlyActive
+                volume = originalVideoVolume
+                
+                // Setup Media Item
+                val mediaItem = MediaItem.fromUri(videoUrl)
+                setMediaItem(mediaItem)
+                prepare()
+            }
     }
 
     // Dynamic Volume Updates for original audio

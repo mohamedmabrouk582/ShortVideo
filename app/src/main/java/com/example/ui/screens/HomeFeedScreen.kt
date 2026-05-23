@@ -56,8 +56,22 @@ fun HomeFeedScreen(
         return
     }
 
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val videoUrls = remember(videos) { videos.map { it.videoUrl } }
+
     // Configure vertical paging state
     val pagerState = rememberPagerState(pageCount = { videos.size })
+
+    // Trigger video preloading on active page change
+    LaunchedEffect(pagerState.currentPage, videoUrls) {
+        if (videoUrls.isNotEmpty()) {
+            com.example.data.VideoCacheManager.preloadVideos(
+                context = context,
+                videoUrls = videoUrls,
+                currentIndex = pagerState.currentPage
+            )
+        }
+    }
 
     // Track views dynamically when a pager selection aligns to active item
     LaunchedEffect(pagerState.currentPage, videos) {

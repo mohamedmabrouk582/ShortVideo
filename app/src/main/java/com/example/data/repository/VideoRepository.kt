@@ -56,78 +56,102 @@ class VideoRepository(private val videoDao: VideoDao) {
     suspend fun seedDatabaseIfEmpty() {
         val currentVideos = videoDao.getAllVideos().first()
         if (currentVideos.isEmpty()) {
-            val initialVideos = listOf(
-                ShortVideo(
-                    id = 1,
-                    videoUrl = "https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-sitting-on-ground-reading-40345-large.mp4",
-                    creatorName = "@neon_reader",
-                    avatarUrl = "NR",
-                    description = "Midnight reading sessions under neon lights are magical... 📖✨ Best place to get lost in a story. #aesthetic #neonvibes #reading #lofichill",
-                    musicTrack = "Lofi Chills - Sunset Vibes",
-                    likesCount = 1420,
-                    viewsCount = 8900,
-                    hashtags = "#aesthetic #neonvibes #reading #lofichill"
-                ),
-                ShortVideo(
-                    id = 2,
-                    videoUrl = "https://assets.mixkit.co/videos/preview/mixkit-skater-doing-a-trick-in-a-skatepark-42232-large.mp4",
-                    creatorName = "@skate_pro",
-                    avatarUrl = "SP",
-                    description = "Nailing this new flip trick on a sunny afternoon! 🛹🔥 Persistence pays off. #skateboarding #skatelife #extremesports #training",
-                    musicTrack = "Hyperactive Punk Rock - Skate Anthem",
-                    likesCount = 450,
-                    viewsCount = 1201,
-                    hashtags = "#skateboarding #skatelife #extremesports #training"
-                ),
-                ShortVideo(
-                    id = 3,
-                    videoUrl = "https://assets.mixkit.co/videos/preview/mixkit-waves-breaking-in-the-ocean-1527-large.mp4",
-                    creatorName = "@ocean_breeze",
-                    avatarUrl = "OB",
-                    description = "Chasing waves and feeling the cool salty wind. Nature is therapeutic 🌊💙 Take a deep breath. #oceanlife #waveporn #seaside #peaceful",
-                    musicTrack = "Ambient Waves in G Minor",
-                    likesCount = 3200,
-                    viewsCount = 18450,
-                    hashtags = "#oceanlife #waveporn #seaside #peaceful"
-                ),
-                ShortVideo(
-                    id = 4,
-                    videoUrl = "https://assets.mixkit.co/videos/preview/mixkit-stars-in-the-night-sky-11881-large.mp4",
-                    creatorName = "@cosmic_voyager",
-                    avatarUrl = "CV",
-                    description = "Deep space stargazing observatory. The universe is full of secrets wait to be found 🌌🌏 #astrophotography #space #cosmos #nebula",
-                    musicTrack = "Interstellar Synth Solo",
-                    likesCount = 5200,
-                    viewsCount = 34000,
-                    hashtags = "#astrophotography #space #cosmos #nebula"
-                ),
-                ShortVideo(
-                    id = 5,
-                    videoUrl = "https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4",
-                    creatorName = "@outdoors_spirit",
-                    avatarUrl = "OS",
-                    description = "A hidden serene forest stream under bright morning rays. Refreshing walk in the woods.🍃✨ #naturelovers #camping #serene #forest",
-                    musicTrack = "Nature Birds Morning Flute",
-                    likesCount = 980,
-                    viewsCount = 5600,
-                    hashtags = "#naturelovers #camping #serene #forest"
-                )
+            val videoUrls = listOf(
+                "https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-sitting-on-ground-reading-40345-large.mp4",
+                "https://assets.mixkit.co/videos/preview/mixkit-skater-doing-a-trick-in-a-skatepark-42232-large.mp4",
+                "https://assets.mixkit.co/videos/preview/mixkit-waves-breaking-in-the-ocean-1527-large.mp4",
+                "https://assets.mixkit.co/videos/preview/mixkit-stars-in-the-night-sky-11881-large.mp4",
+                "https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4",
+                "https://assets.mixkit.co/videos/preview/mixkit-coffee-pouring-into-a-glass-cup-42200-large.mp4",
+                "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-gamer-playing-with-a-controller-41618-large.mp4",
+                "https://assets.mixkit.co/videos/preview/mixkit-chef-plating-a-gourmet-dish-42510-large.mp4",
+                "https://assets.mixkit.co/videos/preview/mixkit-skater-doing-a-trick-in-a-skatepark-42045-large.mp4",
+                "https://assets.mixkit.co/videos/preview/mixkit-play-of-sunlight-on-a-forest-floor-after-rain-41584-large.mp4",
+                "https://assets.mixkit.co/videos/preview/mixkit-person-holding-sparklers-at-dusk-42171-large.mp4",
+                "https://assets.mixkit.co/videos/preview/mixkit-woman-exercising-on-yoga-mat-42354-large.mp4"
             )
-            videoDao.insertVideos(initialVideos)
 
-            // Seed Comments for video 1
-            videoDao.insertComment(VideoComment(videoId = 1, username = "@rose_gold", text = "This aesthetic is unmatched! Where is this bookstore? 💜"))
-            videoDao.insertComment(VideoComment(videoId = 1, username = "@lofi_lover", text = "Perfect chill vibes for study sessions! I love Lofi music."))
-            videoDao.insertComment(VideoComment(videoId = 1, username = "@dreamer_blue", text = "Adding this book to my late reading playlist! Name?"))
-            videoDao.insertComment(VideoComment(videoId = 1, username = "@novel_nest", text = "The book choice is excellent! Great content."))
+            val creators = listOf(
+                "@neon_reader" to "NR",
+                "@skate_pro" to "SP",
+                "@ocean_breeze" to "OB",
+                "@cosmic_voyager" to "CV",
+                "@outdoors_spirit" to "OS",
+                "@cafe_lofi" to "CL",
+                "@pixel_gamer" to "PG",
+                "@gourmet_chef" to "GC",
+                "@skate_jump" to "SJ",
+                "@forest_walk" to "FW",
+                "@sparkler_dusk" to "SD",
+                "@yoga_zen" to "YZ"
+            )
 
-            // Seed Comments for video 2
-            videoDao.insertComment(VideoComment(videoId = 2, username = "@tony_stunt", text = "Bro that flips was absolutely clean! 🛹✨"))
-            videoDao.insertComment(VideoComment(videoId = 2, username = "@mom_safety", text = "Please wear your helmet and kneepads! Love mom."))
+            val descriptions = listOf(
+                "Midnight sessions are magical... 📖✨ Best place to get lost in a story." to "#aesthetic #lofivibe #reading",
+                "Nailing this new flip trick on a sunny afternoon! 🛹🔥 Persistence pays off." to "#skateboarding #skatelife #extremesport",
+                "Chasing waves and feeling the cool salty wind. Nature is therapeutic 🌊💙 Take a deep breath." to "#oceanlife #seaside #peaceful",
+                "Deep space stargazing observatory. The universe is full of secrets waiting to be found 🌌🌏" to "#astrophoto #space #cosmos",
+                "A hidden serene forest stream under bright morning rays. Refreshing walk in the woods.🍃✨" to "#naturelover #serene #forest",
+                "Fresh aromatic coffee morning routine. The smell of freshly brewed beans is unparalleled.☕️🤎" to "#coffeetime #cafevibes #morning",
+                "An intense focus gaming session with the latest immersive controllers. 🎮🕹️" to "#gamers #rgbconfig #gamingstation",
+                "Dedicating absolute focus on plating this beautiful delicate gourmet dish. Bon appétit! 🍽️✨" to "#cooking #foodie #chefslife",
+                "Incredible skateboard launch in high motion. Skating is an art and a lifestyle. 🛹🌟" to "#skatepark #skaterjump #thrills",
+                "The play of bright golden sunlight on wet leaves after a heavy morning shower. 🌿💧" to "#freshrain #naturelovers #outdoor",
+                "Celebrating warm magical moments with friends lighting sparklers at dusk. 🎇✨" to "#sparklers #duskmoments #joy",
+                "Starting the day right with stretching and deep meditative breathing. Mind and body alignment.🧘‍♀️🌸" to "#yoga #meditation #wellness"
+            )
 
-            // Seed Comments for video 3
-            videoDao.insertComment(VideoComment(videoId = 3, username = "@salt_life", text = "Nothing compares to the power of the ocean 🌊"))
-            videoDao.insertComment(VideoComment(videoId = 3, username = "@meditate_now", text = "I am using this loop to breathe. In and out... thank you!"))
+            val musicTracks = listOf(
+                "Lofi Chills - Sunset Vibes",
+                "Hyperactive Punk Rock - Skate Anthem",
+                "Ambient Waves in G Minor",
+                "Interstellar Synth Solo",
+                "Nature Birds Morning Flute",
+                "Espresso Jazz Cafe Beats",
+                "Cyber Neon Electro Chase",
+                "Classic Piano Elegance",
+                "Upbeat Ska Rhythms",
+                "Gentle Whispering Pine Winds",
+                "Summer Campfire Acoustic Guitar",
+                "Peaceful Tibetan Singing Bowl"
+            )
+
+            val seededVideos = mutableListOf<ShortVideo>()
+
+            for (i in 1..100) {
+                val indexMod = (i - 1) % videoUrls.size
+                val creatorInfo = creators[indexMod]
+                val descInfo = descriptions[indexMod]
+                val musicTrackName = musicTracks[indexMod]
+
+                val uniqueCreator = "${creatorInfo.first}_$i"
+                val finalDescription = "Part $i: ${descInfo.first} ${descInfo.second}"
+                val likes = (i * 263 + 124) % 15800 + 40
+                val views = likes * 4 + (i * 12 + 80)
+
+                seededVideos.add(
+                    ShortVideo(
+                        id = i.toLong(),
+                        videoUrl = videoUrls[indexMod],
+                        creatorName = uniqueCreator,
+                        avatarUrl = creatorInfo.second,
+                        description = finalDescription,
+                        musicTrack = "$musicTrackName (Seeded Part $i)",
+                        likesCount = likes,
+                        viewsCount = views,
+                        hashtags = descInfo.second
+                    )
+                )
+            }
+
+            videoDao.insertVideos(seededVideos)
+
+            // Seed generic comments on first 5 videos to keep interface active
+            for (vId in 1L..5L) {
+                videoDao.insertComment(VideoComment(videoId = vId, username = "@study_zen", text = "This visual is so relaxing, watched it multiple times! 🙌"))
+                videoDao.insertComment(VideoComment(videoId = vId, username = "@viewer_pro", text = "This content quality is amazing! Seeded video #$vId is super stable."))
+                videoDao.insertComment(VideoComment(videoId = vId, username = "@active_short", text = "Is there a full length track list anywhere? Sounds spectacular! 🎵"))
+            }
         }
     }
 }
