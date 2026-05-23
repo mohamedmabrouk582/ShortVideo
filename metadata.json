@@ -1,0 +1,6 @@
+{
+  "name": "Short Video App",
+  "description": "An immersive, sleek short video streaming app with a vertical swipe interface, interactive overlays, comments, profiles, local database state, and a beautiful custom player control scheme.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
